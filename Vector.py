@@ -18,5 +18,5 @@ class Vector:
         w.x = self.y*v.z - self.z*v.y
         w.y = self.z*v.x - self.x*v.z
         w.z = self.x*v.y - self.y*v.x
-        __str__(w)
         return w
+
