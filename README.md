@@ -1,1 +1,1 @@
-# -N-Body_problem_J-bril_Yousfi-Valentin_Michel
+# -N-Body_problem_Jébril_Yousfi-Valentin_Michel
