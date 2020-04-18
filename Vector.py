@@ -57,8 +57,8 @@ class Vector:
     def __neg__(self): # Allow to do "-v"
         return Vector()-self
     
-    def __pos__(self) # Allow to do "+v"
-     return self
+    def __pos__(self): # Allow to do "+v"
+        return self
 
     def __abs__(self): # Allow to do "abs(v)"
         return Vector(abs(self.x),abs(self.y),abs(self.z))
