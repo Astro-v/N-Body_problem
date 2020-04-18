@@ -1,4 +1,4 @@
-import Vector
+import Vector as Vec
 
 class Body:
     def __init__(self,p0,v0,m,radius):
@@ -8,4 +8,4 @@ class Body:
         self.radius = radius
         
     def __str__(self):
-        return "Its current position is "+print(self.p[-1])+" (en pc).\n""Its current speed is "+print(self.v)+" (en km.s-1).\n""Its mass is "+self.m+" kg.\n""Its radius is "+self.radius+" km."
+        return "Its current position is "+self.p[-1].__str__()+" (en km).\n""Its current speed is "+self.v.__str__()+" (en km.s-1).\n""Its mass is "+str(self.m)+" kg.\n""Its radius is "+str(self.radius)+" km."
