@@ -1,4 +1,4 @@
-import Body
+from Body import *
 
 
 '''
@@ -21,7 +21,7 @@ class System:
         self.N = len(p0)
         self.body = []
         for i in range(0,self.N,1):
-            self.body.append(Body(p0[i],v0[i],m[i],radius[i]))
+            self.body.append(Bd.Body(p0[i],v0[i],m[i],radius[i]))
            
         
     def addBody(self,p0,v0,m,radius):
