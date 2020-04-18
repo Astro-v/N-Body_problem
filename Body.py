@@ -1,4 +1,4 @@
-import Vector as Vec
+from Vector import *
 
 class Body:
     def __init__(self,p0,v0,m,radius):
