@@ -19,6 +19,9 @@ class Vector:
         w.z = self.x*v.y - self.y*v.x
         return w
     
+    def mult(self,x):
+        return Vector(self.x*x,self.y*x,self.z*x)
+    
     # Operator overloading
 
     def __str__(self): # Allow to do "print(v)"
