@@ -1,9 +1,9 @@
 from Vector import *
 
 class Body:
-    def __init__(self,p0,v0,m,radius):
+    def __init__(self,p0: Vector,v0: Vector,m: float,radius: float):
         self.p = [p0]
-        self.v = v0
+        self.v = [v0]
         self.m = m
         self.radius = radius
         
