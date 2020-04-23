@@ -104,7 +104,7 @@ class Vector:
             return True
         return False
 
-    def __lt__(self,other): # Allow to do "v>u"
+    def __gt__(self,other): # Allow to do "v>u"
         """
         Return True if and only if norm of v is greater than norm of u.
         """
@@ -115,7 +115,7 @@ class Vector:
             return True
         return False
 
-    def __le__(self,other): # Allow to do "v>=u"
+    def __ge__(self,other): # Allow to do "v>=u"
         """
         Return True if and only if norm of v is greater than or equal to norm of u.
         """
