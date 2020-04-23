@@ -5,6 +5,6 @@ To do:
 [OK] Implement the Euler method in System.py
 [OK] Create the Display.py file
 [] Change the entire unit system (pc,solar mass,second) -> G,__str__,speed ...
-[] Implement the Display function using OpenGL (3D) library or/and pygame librrary (2D)
+[] Implement the Display function using OpenGL (3D) library or/and pygame library (2D)
 [] Implement the collision system
 
