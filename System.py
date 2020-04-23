@@ -61,8 +61,7 @@ class System:
 
     def euler(self,tmax: float):
         ''' 
-        Resolve the N-Body problem until tmax with the euler method
-        It resolve the problem but with a self.N**2 complexity
+        resolve the N-Body problem until tmax with the euler method
         '''
 
         G = 6.674*10**(-20)
@@ -71,22 +70,41 @@ class System:
             for i in range(self.N):
                 for j in range(self.N):
                     if j>i:
-                        forces[i][j] = (self.body[j].p[-1]-self.body[i].p[-1]).mult(G*self.body[i].m*self.body[j].m/(self.body[i].p[-1]-self.body[j].p[-1]).norm()**3)
+                        forces[i][j] = (self.body[j].p-self.body[i].p[-1]).mult(G*self.body[i].m*self.body[j].m/(self.body[i].p-self.body[j].p).norm()**3)
                     elif i==j:
                         forces[i][j] = Vector()
                     else:
                         forces[i][j] = -forces[j][i]
             for i in range(self.N):
-                (self.body[i].p).append(Vector(self.body[i].p[-1].x+self.dt*(self.body[i].v[-1].x),self.body[i].p[-1].y+self.dt*(self.body[i].v[-1].y),self.body[i].p[-1].z+self.dt*(self.body[i].v[-1].z)))
-                (self.body[i].v).append(self.body[i].v[-1]+sum(forces[i][:]).mult(self.dt/self.body[i].m))
+                self.body[i].p = Vector(self.body[i].p.x+self.dt*(self.body[i].v.x),self.body[i].p.y+self.dt*(self.body[i].v.y),self.body[i].p.z+self.dt*(self.body[i].v.z))
+                self.body[i].v = self.body[i].v+sumV(forces[i][:]).mult(self.dt/self.body[i].m)
             self.t+=self.dt
 
 
-def sum(T: List[Vector]):
+    def eulerStep(self,stepMax: float):
+        ''' 
+        resolve the N-Body problem until stepMax with the euler method
+        '''
+
+        G = 6.674*10**(-20)
+        forces = [[0 for i in range(self.N)] for j in range(self.N)]
+        for step in range(stepMax):
+            for i in range(self.N):
+                for j in range(self.N):
+                    if j>i:
+                        forces[i][j] = (self.body[j].p-self.body[i].p).mult(G*self.body[i].m*self.body[j].m/(self.body[i].p-self.body[j].p).norm()**3)
+                    elif i==j:
+                        forces[i][j] = Vector()
+                    else:
+                        forces[i][j] = -forces[j][i]
+            for i in range(self.N):
+                self.body[i].p = Vector(self.body[i].p.x+self.dt*(self.body[i].v.x),self.body[i].p.y+self.dt*(self.body[i].v.y),self.body[i].p.z+self.dt*(self.body[i].v.z))
+                self.body[i].v = self.body[i].v+sumV(forces[i][:]).mult(self.dt/self.body[i].m)
+            self.t+=self.dt
+ 
+def sumV(T: List[Vector]):
     s = Vector()
     for i in range(len(T)):
         s += T[i]
     return s
 
-
-     
