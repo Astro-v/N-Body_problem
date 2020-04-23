@@ -3,14 +3,14 @@ from System import *
 from Body import *
 from Vector import *
 
-"""
+
 BLACK = [0, 0, 10]
 WHITE = [255, 255, 255]
 RED = [255, 0, 0]
 YELLOW = [150,150,0]
 GREEN = [0, 150, 0]
 BLUE = [0, 0, 255]
-"""
+
 
 
 def display(sys: System,xymax: int = 300000000,nbr: int = 300,step: int = 100):
