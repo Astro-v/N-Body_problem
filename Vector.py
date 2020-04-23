@@ -9,8 +9,6 @@ class Vector:
     def norm(self):
         return (self.x**2 + self.y**2 + self.z**2)**(1/2)
     
-    def scalarProduct(self,v):
-        return self.x*v.x + self.y*v.y + self.z*v.z
     
     def crossProduct(self,v):
         w = Vector(0,0,0)
@@ -55,7 +53,7 @@ class Vector:
         if not other.__class__ is Vector:
             print("Error: argument not a Vector")
             return NotImplemented
-        return self.scalarProduct(other)
+        return self.x*other.x + self.y*other.y + self.z*other.z
 
     def __neg__(self): # Allow to do "-v"
         return Vector()-self
