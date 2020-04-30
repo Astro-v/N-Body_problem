@@ -2,11 +2,12 @@ from Vector import *
 from typing import List
 
 class Body:
-    def __init__(self,p0: Vector,v0: Vector,m: float,radius: float = 1,color: List[int] = [0,0,0]):
+    def __init__(self,p0: Vector,v0: Vector,m: float,radius,illuRadius : float = 1,color: List[int] = [0,0,0]):
         self.p = p0
         self.v = v0
         self.m = m
         self.radius = radius
+        self.illuRadius = illuRadius
         self.color = color
         
     def __str__(self):
