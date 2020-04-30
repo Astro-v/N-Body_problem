@@ -2,7 +2,7 @@ from System import *
 from Body import *
 from Vector import *
 
-for Display3d import *
+from Display3d import *
 
 xyzmax = 300000000
 ref = 0
