@@ -4,9 +4,10 @@ from Vector import *
 
 for Display3d import *
 
+xymax = 300000000
+nbr = 300
 step = 100
 dt = 100
-nbr = 500
 sys = System(dt)
 earth = Body(Vector(149597887.5,0,0),Vector(0,29.783,0),5.972*(10**24),6,BLUE)
 sun = Body(Vector(0,0,0),Vector(0,0,0),1.9891*(10**30),10,YELLOW)
@@ -17,4 +18,4 @@ sys+=sun
 sys+=earth
 sys += sat
 
-display(sys)
+display(sys,xyzmax,nbr,step)
