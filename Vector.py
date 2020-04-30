@@ -127,3 +127,10 @@ class Vector:
     def __len__(self): # Allow to do "len(v)" (not realy usefull)
         return 3
 
+ 
+
+def sumV(T: List[Vector]):
+    s = Vector()
+    for i in range(len(T)):
+        s += T[i]
+    return s
