@@ -39,7 +39,7 @@ def grille():
 		glVertex3f(0,0,x[i])
 	glEnd()
 
-def display(sys,xyzmax = 260000000.0,ref = 0):
+def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0):
 	X = 800
 	Y = 800
 	Z = 800
@@ -58,7 +58,7 @@ def display(sys,xyzmax = 260000000.0,ref = 0):
 
 	gluPerspective(90, (display[0]/display[1]), 0.1, 2*Z)
 
-	glTranslatef(0.0,0.0,-Z)
+	glTranslatef(0.0,0.0,-Z) # initial position
 	glRotatef(45, 45, 45, 0)
 	while True:
 		for event in pygame.event.get():
