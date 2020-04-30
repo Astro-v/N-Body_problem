@@ -70,8 +70,8 @@ def display(sys):
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 		grille()
 		for j in range(sys.N):
-			sphere([Xt[j],Yt[j],Zt[j]],sys.body[j].color, sys.body[j].radius) # display of the body
-		sys.eulerStep(step) # we calculate the "step" next position
+			sphere([Xt[j],Yt[j],Zt[j]],sys.body[j].color, sys.body[j].illuRadius) # display of the body
+		sys.euler(step) # we calculate the "step" next position
 		for j in range(sys.N):
 			Xt[j]=X*sys.body[j].p.x/xyzmax-X*sys.body[ref].p.x/xyzmax # we add the x,y and z position in the plan
 			Yt[j]=Y*sys.body[j].p.y/xyzmax-Y*sys.body[ref].p.y/xyzmax
