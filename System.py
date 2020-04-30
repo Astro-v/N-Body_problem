@@ -6,7 +6,7 @@ from typing import List
 the system class manages all the N-body system and manages the simulation
 '''
 class System:
-    def __init__(self,dt: float = 10**(-3),name,p0: List[Vector] = [],v0: List[Vector] = [],m: list = [],radius: list = [],illuRadius: list = [],color: list = []):
+    def __init__(self,dt: float = 10**(-3),name: List[str] = [],p0: List[Vector] = [],v0: List[Vector] = [],m: list = [],radius: list = [],illuRadius: list = [],color: list = []):
         ''' 
         Initialize the N-Body system
         name : array of the names of the bodies
