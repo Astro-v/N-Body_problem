@@ -39,12 +39,10 @@ def grille():
 		glVertex3f(0,0,x[i])
 	glEnd()
 
-def display(sys):
+def display(sys,xyzmax = 260000000.0,ref = 0):
 	X = 800
 	Y = 800
 	Z = 800
-	xyzmax = 260000000.0
-	ref = 0
 
 	Xt=[[] for i in range(sys.N)]
 	Yt=[[] for i in range(sys.N)]
