@@ -4,8 +4,8 @@ from Vector import *
 
 for Display3d import *
 
-xymax = 300000000
-nbr = 300
+xyzmax = 300000000
+ref = 0
 step = 100
 dt = 100
 sys = System(dt)
@@ -18,4 +18,4 @@ sys+=sun
 sys+=earth
 sys += sat
 
-display(sys,xyzmax,nbr,step)
+display(sys,xyzmax,step,ref)
