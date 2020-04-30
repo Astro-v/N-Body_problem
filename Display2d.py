@@ -46,15 +46,15 @@ def display(sys: System,xymax: int = 300000000,nbr: int = 300,step: int = 100):
 	    screen.fill(BLACK)
 	    for j in range(sys.N):
 	        if i<nbr: # display of the following line
-	            pygame.draw.circle(screen, sys.body[j].color, [taillex + Xt[j][i],tailley + Yt[j][i]], sys.body[j].radius) # display of the body
+	            pygame.draw.circle(screen, sys.body[j].color, [taillex + Xt[j][i],tailley + Yt[j][i]], sys.body[j].illuRadius) # display of the body
 	            for k in range(i-1):
 	                pygame.draw.line(screen,sys.body[j].color, [taillex + Xt[j][i-k], tailley + Yt[j][i-k]],[taillex + Xt[j][i-k-1], tailley + Yt[j][i-k-1]])
 	        else:
-	            pygame.draw.circle(screen, sys.body[j].color, [taillex + Xt[j][nbr-1],tailley + Yt[j][nbr-1]], sys.body[j].radius) # display of the body
+	            pygame.draw.circle(screen, sys.body[j].color, [taillex + Xt[j][nbr-1],tailley + Yt[j][nbr-1]], sys.body[j].illuRadius) # display of the body
 	            for k in range(nbr-1):
 	                pygame.draw.line(screen,sys.body[j].color, [taillex + Xt[j][k], tailley + Yt[j][k]],[taillex + Xt[j][k+1], tailley + Yt[j][k+1]])
 	    i+=1
-	    sys.eulerStep(step) # we calculate the "step" next position
+	    sys.euler(step) # we calculate the "step" next position
 	    for j in range(sys.N):
 	        if ref >=0:
 		        if len(Xt[j])<nbr:
