@@ -29,7 +29,7 @@ def sphere(center: List[int],color: List[int],radius: float = 1):
 			glVertex3f(center[0]+radius*math.sin(theta)*math.cos(phi),center[1]+radius*math.sin(theta)*math.sin(phi),center[2]+radius*math.cos(theta))
 	glEnd()
 
-def grille():
+def grid(X):
 	glBegin(GL_POINTS)
 	x = np.linspace(-2*X,2*X,200)
 	for i in range(len(x)):
@@ -66,7 +66,7 @@ def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0
 				pygame.quit()
 				quit()
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-		grille()
+		grid(X)
 		for j in range(sys.N):
 			sphere([Xt[j],Yt[j],Zt[j]],sys.body[j].color, sys.body[j].illuRadius) # display of the body
 		sys.euler(step) # we calculate the "step" next position
