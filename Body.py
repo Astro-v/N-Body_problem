@@ -2,7 +2,7 @@ from Vector import *
 from typing import List
 
 class Body:
-    def __init__(self,name,p0: Vector,v0: Vector,m: float,radius,illuRadius : float = 1,color: List[int] = [0,0,0]):
+    def __init__(self,name,p0: Vector,v0: Vector,m: float,radius : float,illuRadius : float = 1,color: List[int] = [0,0,0]):
         self.name = name
         self.p = p0
         self.v = v0
