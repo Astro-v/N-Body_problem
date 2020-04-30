@@ -27,7 +27,7 @@ class System:
             self.body.append(Body(name[i],p0[i],v0[i],m[i],radius[i]),illuRadius[i],color[i])
            
         
-    def addBody(self,name,p0: Vector,v0: Vector,m: float,radius: float, illuRadius: float = 1,color: list[int] = [255,255,255]):
+    def addBody(self,name,p0: Vector,v0: Vector,m: float,radius: float, illuRadius: float = 1,color: list = [255,255,255]):
         ''' 
         Add a body to the system
         name : name of the body
