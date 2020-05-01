@@ -57,14 +57,77 @@ def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0
 	pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
 	gluPerspective(90, (display[0]/display[1]), 0.1, 2*Z)
-
+	eR = [0,0,1]
+	eTheta = [1,0,0]
+	ePhi = [0,1,0]
+	phi = 0
+	theta = 0
+	eR = [-math.cos(phi)*math.sin(theta),+math.sin(phi),-math.cos(phi)*math.cos(theta)]
+	eTheta = [-math.cos(theta),0,+math.sin(theta)]
+	ePhi = [-math.sin(phi)*math.sin(theta),-math.cos(phi),-math.sin(phi)*math.cos(theta)]
+	eZ = [math.cos(phi)*ePhi[0]+math.sin(phi)*eR[0],math.cos(phi)*ePhi[1]+math.sin(phi)*eR[1],math.cos(phi)*ePhi[2]+math.sin(phi)*eR[2]]
+	angle = math.pi/100
 	glTranslatef(0.0,0.0,-Z) # initial position
-	glRotatef(45, 45, 45, 0)
+	pygame.key.set_repeat(100, 30) # key repeat
 	while True:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				pygame.quit()
 				quit()
+			elif event.type == KEYDOWN:
+				eR = [-math.cos(phi)*math.sin(theta),+math.sin(phi),-math.cos(phi)*math.cos(theta)]
+				eTheta = [-math.cos(theta),0,+math.sin(theta)]
+				ePhi = [-math.sin(phi)*math.sin(theta),-math.cos(phi),-math.sin(phi)*math.cos(theta)]
+				eZ = [math.cos(phi)*ePhi[0]+math.sin(phi)*eR[0],math.cos(phi)*ePhi[1]+math.sin(phi)*eR[1],math.cos(phi)*ePhi[2]+math.sin(phi)*eR[2]]
+				if  event.key == K_LEFT:
+					glRotatef(-angle*180/math.pi, eZ[0],eZ[1],eZ[2])
+					glRotatef(angle*180/math.pi*2*math.sin(phi),eR[0],eR[1],eR[2])
+					theta -= angle
+				elif  event.key == K_RIGHT:
+					glRotatef(angle*180/math.pi, eZ[0],eZ[1],eZ[2])
+					glRotatef(-angle*180/math.pi*2*math.sin(phi),eR[0],eR[1],eR[2])
+					theta += angle
+				elif  event.key == K_UP:
+					glRotatef(-angle*180/math.pi, eTheta[0],eTheta[1],eTheta[2])
+					phi -= angle
+				elif  event.key == K_DOWN:
+					glRotatef(angle*180/math.pi, eTheta[0],eTheta[1],eTheta[2])
+					phi += angle
+				elif event.key == K_0:
+					ref = 0
+				elif event.key == K_1:
+					if sys.N > 1:
+						ref = 1
+				elif event.key == K_2:
+					if sys.N > 2:
+						ref = 2
+				elif event.key == K_3:
+					if sys.N > 3:
+						ref = 3
+				elif event.key == K_4:
+					if sys.N > 4:
+						ref = 4
+				elif event.key == K_5:
+					if sys.N > 5:
+						ref = 5
+				elif event.key == K_6:
+					if sys.N > 6:
+						ref = 6
+				elif event.key == K_7:
+					if sys.N > 7:
+						ref = 7
+				elif event.key == K_8:
+					if sys.N > 8:
+						ref = 8
+				elif event.key == K_9:
+					if sys.N > 9:
+						ref = 9
+			elif event.type == MOUSEBUTTONUP and event.button == 4:
+				xyzmax -= 3000000
+			elif event.type == MOUSEBUTTONUP and event.button == 5:
+				xyzmax += 3000000
+
+
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 		grid(X)
 		for j in range(sys.N):
@@ -75,5 +138,3 @@ def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0
 			Yt[j]=Y*sys.body[j].p.y/xyzmax-Y*sys.body[ref].p.y/xyzmax
 			Zt[j]=Z*sys.body[j].p.z/xyzmax-Z*sys.body[ref].p.z/xyzmax
 		pygame.display.flip()
-		#pygame.time.wait(10)
-
