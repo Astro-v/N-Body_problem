@@ -123,7 +123,8 @@ def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0
 					if sys.N > 9:
 						ref = 9
 			elif event.type == MOUSEBUTTONUP and event.button == 4:
-				xyzmax -= 3000000
+				if xyzmax >= 6000000:
+					xyzmax -=  3000000
 			elif event.type == MOUSEBUTTONUP and event.button == 5:
 				xyzmax += 3000000
 
