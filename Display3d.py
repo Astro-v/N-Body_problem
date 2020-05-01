@@ -21,8 +21,8 @@ BLUE = [0, 0, 255]
 def sphere(center: List[int],color: List[int],radius: float = 1):
 	glBegin(GL_POLYGON)
 	theta = -math.pi
-	thetaList = np.linspace(-math.pi,+math.pi,10)
-	phiList = np.linspace(0,2*math.pi,10)
+	thetaList = np.linspace(-math.pi,+math.pi,20)
+	phiList = np.linspace(0,2*math.pi,20)
 	for theta in thetaList:
 		for phi in phiList:
 			glColor3f(color[0],color[1],color[2])
@@ -66,9 +66,9 @@ def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0
 	eTheta = [-math.cos(theta),0,+math.sin(theta)]
 	ePhi = [-math.sin(phi)*math.sin(theta),-math.cos(phi),-math.sin(phi)*math.cos(theta)]
 	eZ = [math.cos(phi)*ePhi[0]+math.sin(phi)*eR[0],math.cos(phi)*ePhi[1]+math.sin(phi)*eR[1],math.cos(phi)*ePhi[2]+math.sin(phi)*eR[2]]
-	angle = math.pi/100
+	angle = math.pi/500
 	glTranslatef(0.0,0.0,-Z) # initial position
-	pygame.key.set_repeat(100, 30) # key repeat
+	pygame.key.set_repeat(5, 5) # key repeat
 	while True:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
