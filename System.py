@@ -39,6 +39,13 @@ class System:
         illuRadius : radius of the illustration of the body
         '''
         
+        self.name.append(name)
+        self.p0.append(p0)
+        self.v0.append(v0)
+        self.m.append(m)
+        self.radius.append(radius)
+        self.illuRadius.append(illuRadius)
+        self.color.append(color)
         self.N = self.N +1
         self.body.append(Body(name,p0,v0,m,radius,illuRadius,color))
        
@@ -47,9 +54,70 @@ class System:
         if not other.__class__ is Body:
             print("Error: argument not a Body")
             return NotImplemented
+        self.name.append(other.name)
+        self.p0.append(other.p)
+        self.v0.append(other.v)
+        self.m.append(pther.m)
+        self.radius.append(other.radius)
+        self.illuRadius.append(other.illuRadius)
+        self.color.append(other.color)
         self.N = self.N +1
         self.body.append(other)
         return self
+    
+    
+    def removeBody(self,name):
+        k = 0
+        while self.name[k] != name or k < self.N:
+            k += 1
+        if k = self.N:
+            print(name,"is not part of the system")
+        if k = self.N-1:
+            self.body = self.body[:,k]
+            self.name = self.name[:,k]
+            self.p0 = self.p0[:,k]
+            self.v0 = self.v0[:,k]
+            self.m = self.m[:,k]
+            self.radius = self.radius[:,k]
+            self.illuRadius = self.illuRadius[:,k]
+            self.color = self.color[:,k]
+            self.N = self.N - 1
+        else:
+            self.body = self.body[:,k] + self.body[k+1,:]
+            self.name = self.name[:,k] + self.name[k+1,:]
+            self.p0 = self.p0[:,k] + self.p0[k+1,:]
+            self.v0 = self.v0[:,k] + self.v0[k+1,:]
+            self.m = self.m[:,k] + self.m[k+1,:]
+            self.radius = self.radius[:,k] + self.radius[k+1,:]
+            self.illuRadius = self.illuRadius[:,k] + self.illuRadius[k+1,:]
+            self.color = self.color[:,k] + self.color[k+1,:]
+            self.N = self.N - 1
+    
+    
+    def collision(self, nameA, nameB):
+        i = 0
+        j = 0
+        for k in range(self.N):
+            if self.name[k] == nameA:
+                i = k
+            if self.name[k] == nameB:
+                j = k
+        A = self.body[i]
+        B = self.body[j]
+        name = nameA + "+" + nameB
+        m = A.m + B.m
+        p0 = (A.m*A.p + B.m*B.p)/(A.m + B.m)
+        v0 = (A.m*A.v + B.m*B.v)/(A.m + B.m)
+        radius = (A.radius**3 + B.radius**3)**(1/3)
+        if A.m > B.m : 
+            illuRadius = A.illuRadius
+            color = A.color
+        else:
+            illuRadius = B.illuRadius
+            color = B.color
+        removeBody(self,nameA)
+        removeBody(self,nameB)
+        addBody(self,name,p0,v0,m,radius, illuRadius,color)
         
 
     def euler(self,stepMax: float):
