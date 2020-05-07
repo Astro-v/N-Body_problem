@@ -50,7 +50,7 @@ class System:
         self.N = self.N +1
         self.body.append(other)
         return self
-
+        
 
     def euler(self,stepMax: float):
         ''' 
