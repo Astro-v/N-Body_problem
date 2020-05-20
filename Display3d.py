@@ -39,7 +39,18 @@ def grid(X):
 		glVertex3f(0,0,x[i])
 	glEnd()
 
-def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0):
+def drawText(position, textString):     
+    font = pygame.font.Font (None, 32)
+    textSurface = font.render(textString, True, (255,255,255,255), (0,0,0,255))     
+    textData = pygame.image.tostring(textSurface, "RGBA", True)     
+    glRasterPos3d(*position)     
+    glDrawPixels(textSurface.get_width(), textSurface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, textData)
+
+def display(sys: System,method: str,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0):
+	"""
+	sys: The system to display
+	method: chose between two method "Euler" (default) or "RK4"
+	"""
 	X = 800
 	Y = 800
 	Z = 800
@@ -47,6 +58,8 @@ def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0
 	Xt=[[] for i in range(sys.N)]
 	Yt=[[] for i in range(sys.N)]
 	Zt=[[] for i in range(sys.N)]
+
+	posText = [-X+10,Y-50,0]
 
 	for j in range(sys.N):
 	    Xt[j]=X*sys.body[j].p.x/xyzmax
@@ -66,6 +79,7 @@ def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0
 	eTheta = [-math.cos(theta),0,+math.sin(theta)]
 	ePhi = [-math.sin(phi)*math.sin(theta),-math.cos(phi),-math.sin(phi)*math.cos(theta)]
 	eZ = [math.cos(phi)*ePhi[0]+math.sin(phi)*eR[0],math.cos(phi)*ePhi[1]+math.sin(phi)*eR[1],math.cos(phi)*ePhi[2]+math.sin(phi)*eR[2]]
+  posText = [eTheta[0]*(X-10)+ePhi[0]*(-Y+50),eTheta[1]*(X-10)+ePhi[1]*(-Y+50),eTheta[2]*(X-10)+ePhi[2]*(-Y+50)]
 	angle = math.pi/500
 	glTranslatef(0.0,0.0,-Z) # initial position
 	pygame.key.set_repeat(5, 5) # key repeat
@@ -122,8 +136,13 @@ def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0
 				elif event.key == K_9:
 					if sys.N > 9:
 						ref = 9
+				elif event.key == K_w:
+					if xyzmax >= 20000000:
+						xyzmax -=  1000000
+				elif event.key == K_s:
+					xyzmax += 1000000
 			elif event.type == MOUSEBUTTONUP and event.button == 4:
-				if xyzmax >= 6000000:
+				if xyzmax >= 20000000:
 					xyzmax -=  3000000
 			elif event.type == MOUSEBUTTONUP and event.button == 5:
 				xyzmax += 3000000
@@ -133,9 +152,27 @@ def display(sys: System,xyzmax: float = 260000000.0,step: int = 200,ref: int = 0
 		grid(X)
 		for j in range(sys.N):
 			sphere([Xt[j],Yt[j],Zt[j]],sys.body[j].color, sys.body[j].illuRadius) # display of the body
-		sys.euler(step) # we calculate the "step" next position
+		if (method == "RK4"):
+			sys.RK4(step) # we calculate the "step" next position
+		else:
+			sys.euler(step) # we calculate the "step" next position
+		
 		for j in range(sys.N):
 			Xt[j]=X*sys.body[j].p.x/xyzmax-X*sys.body[ref].p.x/xyzmax # we add the x,y and z position in the plan
 			Yt[j]=Y*sys.body[j].p.y/xyzmax-Y*sys.body[ref].p.y/xyzmax
 			Zt[j]=Z*sys.body[j].p.z/xyzmax-Z*sys.body[ref].p.z/xyzmax
+		eTheta = [-math.cos(theta),0,+math.sin(theta)]
+		ePhi = [-math.sin(phi)*math.sin(theta),-math.cos(phi),-math.sin(phi)*math.cos(theta)]
+		posText = [eTheta[0]*(X-10)+ePhi[0]*(-Y+50),eTheta[1]*(X-10)+ePhi[1]*(-Y+50),eTheta[2]*(X-10)+ePhi[2]*(-Y+50)]
+		drawText(posText,str(y(sys.t))+"y "+str(d(sys.t))+"d")
 		pygame.display.flip()
+
+def y(sec):
+	return (sec//(3600*24*365))
+
+def d(sec):
+	return (sec//(3600*24))%365
+
+def h(sec):
+	return (sec//(3600))%24
+
