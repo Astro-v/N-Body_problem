@@ -2,6 +2,7 @@ from Body import *
 import numpy as np
 from typing import List
 
+
 '''
 the system class manages all the N-body system and manages the simulation
 '''
@@ -73,24 +74,10 @@ class System:
         if k = self.N:
             print(name,"is not part of the system")
         if k = self.N-1:
-            self.body = self.body[:,k]
-            self.name = self.name[:,k]
-            self.p0 = self.p0[:,k]
-            self.v0 = self.v0[:,k]
-            self.m = self.m[:,k]
-            self.radius = self.radius[:,k]
-            self.illuRadius = self.illuRadius[:,k]
-            self.color = self.color[:,k]
+            self.body = self.body[:k]
             self.N = self.N - 1
         else:
-            self.body = self.body[:,k] + self.body[k+1,:]
-            self.name = self.name[:,k] + self.name[k+1,:]
-            self.p0 = self.p0[:,k] + self.p0[k+1,:]
-            self.v0 = self.v0[:,k] + self.v0[k+1,:]
-            self.m = self.m[:,k] + self.m[k+1,:]
-            self.radius = self.radius[:,k] + self.radius[k+1,:]
-            self.illuRadius = self.illuRadius[:,k] + self.illuRadius[k+1,:]
-            self.color = self.color[:,k] + self.color[k+1,:]
+            self.body = self.body[:,k] + self.body[k+1:]
             self.N = self.N - 1
     
     
@@ -119,7 +106,18 @@ class System:
         removeBody(self,nameB)
         addBody(self,name,p0,v0,m,radius, illuRadius,color)
         
+        
+    def f(self,p0,v0):
+        F = v0
+        for i in range(N):
+            force = 0
+            for j in range(N):
+                if j != i:
+                    force += (self.body[j].p-p0[i]).mult(G*self.body[i].m*self.body[j].m/(self.body[i].p-p0[i]).norm()**3)
+            F.append(force/(self.body[i].m))
+        return F
 
+                
     def euler(self,stepMax: float):
         ''' 
         resolve the N-Body problem until stepMax with the euler method
@@ -136,9 +134,18 @@ class System:
                         forces[i][j] = Vector()
                     else:
                         forces[i][j] = -forces[j][i]
-            for i in range(self.N):
-                self.body[i].p = Vector(self.body[i].p.x+self.dt*(self.body[i].v.x),self.body[i].p.y+self.dt*(self.body[i].v.y),self.body[i].p.z+self.dt*(self.body[i].v.z))
-                self.body[i].v = self.body[i].v+sumV(forces[i][:]).mult(self.dt/self.body[i].m)
-            self.t+=self.dt
+            if EULER = 1:
+                for i in range(self.N):
+                    self.body[i].p = Vector(self.body[i].p.x+self.dt*(self.body[i].v.x),self.body[i].p.y+self.dt*(self.body[i].v.y),self.body[i].p.z+self.dt*(self.body[i].v.z))
+                    self.body[i].v = self.body[i].v+sumV(forces[i][:]).mult(self.dt/self.body[i].m)
+                self.t+=self.dt
+            elif RK4 = 1:
+                for i in range(self.N):
+                    k1 = f(self,self.p0,self.v0)
+                    k2 = f(self,self.p0 + dt/2*k1[:N],self.v0 + dt/2*k1[N:])
+                    k3 = f(self,self.p0 + dt/2*k2[:N],self.v0 + dt/2*k2[N:])
+                    k4 = f(self,self.p0 + dt*k3[:N],self.v0 + dt/2*k3[N:])
+                    self.body[i].p = self.body[i].p + dt/6*(k1+2*k2+2*k3+k4)[:N]
+                    self.body[i].v = self.body[i].v + dt/6*(k1+2*k2+2*k3+k4)[N:]
 
 
