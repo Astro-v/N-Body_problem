@@ -108,16 +108,16 @@ class System:
         
         
     def f(self,p0,v0):
-        F = v0
-        for i in range(N):
+        F = 0
+        for i in range(self.N):
             force = 0
-            for j in range(N):
+            for j in range(self.N):
                 if j != i:
                     force += (self.body[j].p-p0[i]).mult(G*self.body[i].m*self.body[j].m/(self.body[i].p-p0[i]).norm()**3)
             F.append(force/(self.body[i].m))
-        return F
+        return (v0,F)
 
-                
+
     def euler(self,stepMax: float):
         ''' 
         resolve the N-Body problem until stepMax with the euler method
@@ -126,26 +126,33 @@ class System:
         G = 6.674*10**(-20)
         forces = [[0 for i in range(self.N)] for j in range(self.N)]
         for step in range(stepMax):
-            for i in range(self.N):
-                for j in range(self.N):
-                    if j>i:
-                        forces[i][j] = (self.body[j].p-self.body[i].p).mult(G*self.body[i].m*self.body[j].m/(self.body[i].p-self.body[j].p).norm()**3)
-                    elif i==j:
-                        forces[i][j] = Vector()
-                    else:
-                        forces[i][j] = -forces[j][i]
             if EULER = 1:
+                for i in range(self.N):
+                    for j in range(self.N):
+                        if j>i:
+                            forces[i][j] = (self.body[j].p-self.body[i].p).mult(G*self.body[i].m*self.body[j].m/(self.body[i].p-self.body[j].p).norm()**3)
+                        elif i==j:
+                            forces[i][j] = Vector()
+                        else:
+                            forces[i][j] = -forces[j][i]
                 for i in range(self.N):
                     self.body[i].p = Vector(self.body[i].p.x+self.dt*(self.body[i].v.x),self.body[i].p.y+self.dt*(self.body[i].v.y),self.body[i].p.z+self.dt*(self.body[i].v.z))
                     self.body[i].v = self.body[i].v+sumV(forces[i][:]).mult(self.dt/self.body[i].m)
-                self.t+=self.dt
             elif RK4 = 1:
+                p0 = []
+                v0 = []
+                for j in range(self.N):
+                    p0.append(self.body[j].p)
+                    v0.append(self.body[j].v)
+                k1 = f(self,p0,v0)
+                k2 = f(self,[[p0[k][l] + dt/2*k1[0][k][l] for l in range(3)] for k in range(self.N)],[[v0[k][l] + dt/2*k1[1][k][l] for l in range(3)] for k in range(self.N)])
+                k3 = f(self,[[p0[k][l] + dt/2*k2[0][k][l] for l in range(3)] for k in range(self.N)],[[v0[k][l] + dt/2*k2[1][k][l] for l in range(3)] for k in range(self.N)])
+                k4 = f(self,[[p0[k][l] + dt*k3[0][k][l] for l in range(3)] for k in range(self.N)],[[v0[k][l] + dt*k3[1][k][l] for l in range(3)] for k in range(self.N)])
+                p = [[self.body[k].p[l] + dt/6*(k1[0][k][l] + 2*k2[0][k][l] + 2*k3[0][k][l] + k4[0][k][l]) for l in range(3)] for k in range(self.N)]
+                v = [[self.body[k].v[l] + dt/6*(k1[1][k][l] + 2*k2[1][k][l] + 2*k3[1][k][l] + k4[1][k][l]) for l in range(3)] for k in range(self.N)]
                 for i in range(self.N):
-                    k1 = f(self,self.p0,self.v0)
-                    k2 = f(self,self.p0 + dt/2*k1[:N],self.v0 + dt/2*k1[N:])
-                    k3 = f(self,self.p0 + dt/2*k2[:N],self.v0 + dt/2*k2[N:])
-                    k4 = f(self,self.p0 + dt*k3[:N],self.v0 + dt/2*k3[N:])
-                    self.body[i].p = self.body[i].p + dt/6*(k1+2*k2+2*k3+k4)[:N]
-                    self.body[i].v = self.body[i].v + dt/6*(k1+2*k2+2*k3+k4)[N:]
+                    self.body[i].p = p[i]
+                    self.body[i].v = v[i]
+            self.t+=self.dt
 
 
