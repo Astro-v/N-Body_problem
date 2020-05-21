@@ -1,3 +1,6 @@
+#### JEBRIL & VALENTIN ####
+#### -- VECTOR.PY --####
+
 from typing import List
 
 class Vector:
@@ -128,8 +131,6 @@ class Vector:
 
     def __len__(self): # Allow to do "len(v)" (not realy usefull)
         return 3
-
- 
 
 def sumV(T: List[Vector]):
     s = Vector()
