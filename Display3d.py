@@ -29,6 +29,12 @@ def sphere(center: List[int],color: List[int],radius: float = 1):
 			glColor3f(color[0],color[1],color[2])
 			glVertex3f(center[0]+radius*math.sin(theta)*math.cos(phi),center[1]+radius*math.sin(theta)*math.sin(phi),center[2]+radius*math.cos(theta))
 	glEnd()
+	
+def point(pos,color):
+	glBegin(GL_POINTS)
+	glColor3f(color[0],color[1],color[2])
+	glVertex3f(pos[0],pos[1],pos[2])
+	glEnd()
 
 def grid(X):
 	glBegin(GL_POINTS)
@@ -154,7 +160,10 @@ def display(sys: System,method: str,xyzmax: float = 260000000.0,step: int = 200,
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 		grid(X)
 		for j in range(sys.N):
-			sphere([Xt[j],Yt[j],Zt[j]],sys.body[j].color, sys.body[j].illuRadius) # display of the body
+			if sys.body[j].illuRadius == 1:
+				point([Xt[j],Yt[j],Zt[j]],sys.body[j].color)
+			else:
+				sphere([Xt[j],Yt[j],Zt[j]],sys.body[j].color, sys.body[j].illuRadius) # display of the body
 		if (method == "RK4"):
 			sys.rk4(step) # we calculate the "step" next position
 		else:
