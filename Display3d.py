@@ -6,9 +6,10 @@ import math
 import numpy as np
 from typing import List
 
-from System import *
+from System2 import *
 from Body import *
 from Vector import *
+
 
 
 BLACK = [0, 0, 10]
@@ -79,10 +80,12 @@ def display(sys: System,method: str,xyzmax: float = 260000000.0,step: int = 200,
 	eTheta = [-math.cos(theta),0,+math.sin(theta)]
 	ePhi = [-math.sin(phi)*math.sin(theta),-math.cos(phi),-math.sin(phi)*math.cos(theta)]
 	eZ = [math.cos(phi)*ePhi[0]+math.sin(phi)*eR[0],math.cos(phi)*ePhi[1]+math.sin(phi)*eR[1],math.cos(phi)*ePhi[2]+math.sin(phi)*eR[2]]
-  posText = [eTheta[0]*(X-10)+ePhi[0]*(-Y+50),eTheta[1]*(X-10)+ePhi[1]*(-Y+50),eTheta[2]*(X-10)+ePhi[2]*(-Y+50)]
+	posText = [eTheta[0]*(X-10)+ePhi[0]*(-Y+50),eTheta[1]*(X-10)+ePhi[1]*(-Y+50),eTheta[2]*(X-10)+ePhi[2]*(-Y+50)]
 	angle = math.pi/500
 	glTranslatef(0.0,0.0,-Z) # initial position
 	pygame.key.set_repeat(5, 5) # key repeat
+
+
 	while True:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -156,16 +159,22 @@ def display(sys: System,method: str,xyzmax: float = 260000000.0,step: int = 200,
 			sys.rk4(step) # we calculate the "step" next position
 		else:
 			sys.euler(step) # we calculate the "step" next position
-		
-		for j in range(sys.N):
-			Xt[j]=X*sys.body[j].p.x/xyzmax-X*sys.body[ref].p.x/xyzmax # we add the x,y and z position in the plan
-			Yt[j]=Y*sys.body[j].p.y/xyzmax-Y*sys.body[ref].p.y/xyzmax
-			Zt[j]=Z*sys.body[j].p.z/xyzmax-Z*sys.body[ref].p.z/xyzmax
+		if ref != -1:
+			for j in range(sys.N):
+				Xt[j]=X*sys.body[j].p.x/xyzmax-X*sys.body[ref].p.x/xyzmax # we add the x,y and z position in the plan
+				Yt[j]=Y*sys.body[j].p.y/xyzmax-Y*sys.body[ref].p.y/xyzmax
+				Zt[j]=Z*sys.body[j].p.z/xyzmax-Z*sys.body[ref].p.z/xyzmax
+		else:
+			for j in range(sys.N):
+				Xt[j]=X*sys.body[j].p.x/xyzmax
+				Yt[j]=Y*sys.body[j].p.y/xyzmax
+				Zt[j]=Z*sys.body[j].p.z/xyzmax
 		eTheta = [-math.cos(theta),0,+math.sin(theta)]
 		ePhi = [-math.sin(phi)*math.sin(theta),-math.cos(phi),-math.sin(phi)*math.cos(theta)]
 		posText = [eTheta[0]*(X-10)+ePhi[0]*(-Y+50),eTheta[1]*(X-10)+ePhi[1]*(-Y+50),eTheta[2]*(X-10)+ePhi[2]*(-Y+50)]
-		drawText(posText,str(y(sys.t))+"y "+str(d(sys.t))+"d")
+		drawText(posText,str(y(sys.t))+"y "+str(d(sys.t))+"d "+str(h(sys.t))+"h")
 		pygame.display.flip()
+	
 
 def y(sec):
 	return (sec//(3600*24*365))
@@ -175,4 +184,3 @@ def d(sec):
 
 def h(sec):
 	return (sec//(3600))%24
-
