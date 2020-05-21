@@ -1,5 +1,5 @@
 #### JEBRIL & VALENTIN ####
-pip install -r requirements.txt\n
+pip install -r requirements.txt
 python main.py
 
 Vous pouvez changer dans le main.py la valeur de SIMU pour changer de simulation.
