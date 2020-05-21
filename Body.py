@@ -1,3 +1,6 @@
+#### JEBRIL & VALENTIN ####
+#### ---- BODY.PY ---- ####
+
 from Vector import *
 from typing import List
 
