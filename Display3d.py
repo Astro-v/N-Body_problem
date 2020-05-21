@@ -79,7 +79,7 @@ def display(sys: System,method: str,xyzmax: float = 260000000.0,step: int = 200,
 	eTheta = [-math.cos(theta),0,+math.sin(theta)]
 	ePhi = [-math.sin(phi)*math.sin(theta),-math.cos(phi),-math.sin(phi)*math.cos(theta)]
 	eZ = [math.cos(phi)*ePhi[0]+math.sin(phi)*eR[0],math.cos(phi)*ePhi[1]+math.sin(phi)*eR[1],math.cos(phi)*ePhi[2]+math.sin(phi)*eR[2]]
-  posText = [eTheta[0]*(X-10)+ePhi[0]*(-Y+50),eTheta[1]*(X-10)+ePhi[1]*(-Y+50),eTheta[2]*(X-10)+ePhi[2]*(-Y+50)]
+  	posText = [eTheta[0]*(X-10)+ePhi[0]*(-Y+50),eTheta[1]*(X-10)+ePhi[1]*(-Y+50),eTheta[2]*(X-10)+ePhi[2]*(-Y+50)]
 	angle = math.pi/500
 	glTranslatef(0.0,0.0,-Z) # initial position
 	pygame.key.set_repeat(5, 5) # key repeat
