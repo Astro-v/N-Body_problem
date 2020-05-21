@@ -153,7 +153,7 @@ def display(sys: System,method: str,xyzmax: float = 260000000.0,step: int = 200,
 		for j in range(sys.N):
 			sphere([Xt[j],Yt[j],Zt[j]],sys.body[j].color, sys.body[j].illuRadius) # display of the body
 		if (method == "RK4"):
-			sys.RK4(step) # we calculate the "step" next position
+			sys.rk4(step) # we calculate the "step" next position
 		else:
 			sys.euler(step) # we calculate the "step" next position
 		
