@@ -35,15 +35,15 @@ if SIMU == 0:
 if SIMU == 1:
 	xyzmax = 300000000
 	ref = 0
-	step = 2
+	step = 10
 	dt = 100
 	sys = System(dt)
 	sys += Body("Sun",Vector(0,0,0),Vector(0,0,0),1.9891*(10**30),696340,10,YELLOW)
-	for i in range(0,1000):
+	for i in range(0,100):
 		d = (149597887.5+(random.random()-0.5)*2*70000000)
 		v = (random.random()-0.5)*2*10
 		theta = random.random()*math.pi*2
-		sys+=Body(str(i),Vector(math.cos(theta)*d,math.sin(theta)*d,(random.random()-0.5)*2*70000000),Vector(-math.sin(theta)*(30+v),math.cos(theta)*(30+v),0),5.0*(10**18),100,2,WHITE)
+		sys+=Body(str(i),Vector(math.cos(theta)*d,math.sin(theta)*d,(random.random()-0.5)*2*70000000),Vector(-math.sin(theta)*(30+v),math.cos(theta)*(30+v),0),5.0*(10**18),100,1,WHITE)
 	# method = "RK4"
 	method = "Euler"
 
