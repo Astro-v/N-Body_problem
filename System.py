@@ -1,7 +1,9 @@
+#### JEBRIL & VALENTIN ####
+#### --- SYSTEM.PY --- ####
+
 from Body import *
 import numpy as np
 from typing import List
-
 
 G = 6.674*10**(-20)
 
@@ -102,8 +104,9 @@ class System:
         stepMax: number of steps to perform
         '''
 
-        forces = [[0 for i in range(self.N)] for j in range(self.N)]
+        forces = [[Vector() for i in range(self.N)] for j in range(self.N)]
         for step in range(stepMax):
+
             for i in range(self.N):
                 for j in range(self.N):
                     if j>i:
@@ -114,7 +117,8 @@ class System:
                         forces[i][j] = -forces[j][i]
             for i in range(self.N):
                 self.body[i].p = Vector(self.body[i].p.x+self.dt*(self.body[i].v.x),self.body[i].p.y+self.dt*(self.body[i].v.y),self.body[i].p.z+self.dt*(self.body[i].v.z))
-                self.body[i].v = self.body[i].v+sumV(forces[i][:]).mult(self.dt/self.body[i].m)
+                if self.N > 1:
+                    self.body[i].v = self.body[i].v+sumV(forces[i][:]).mult(self.dt/self.body[i].m)
             self.t+=self.dt
             self.collision()
 
