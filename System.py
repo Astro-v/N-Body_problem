@@ -129,7 +129,7 @@ class System:
             F.append(force.mult(1/(self.body[i].m)))
         return (v,F)
 
-    def RK4(self,stepMax: float):
+    def rk4(self,stepMax: float):
         for step in range(stepMax):
             p = [self.body[i].p for i in range(self.N)]
             v = [self.body[i].v for i in range(self.N)]
