@@ -1,7 +1,9 @@
+import math
+import random
+
 from System import *
 from Body import *
 from Vector import *
-
 from Display3d import *
 
 SIMU = 1
