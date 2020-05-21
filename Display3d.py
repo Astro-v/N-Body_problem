@@ -6,7 +6,7 @@ import math
 import numpy as np
 from typing import List
 
-from System2 import *
+from System import *
 from Body import *
 from Vector import *
 
